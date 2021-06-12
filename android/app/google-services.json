@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "16912287377",
+    "project_id": "admingrocery-16e59",
+    "storage_bucket": "admingrocery-16e59.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:16912287377:android:616f5c15b5ad1c6967a130",
+        "android_client_info": {
+          "package_name": "com.admin.grocery.admingrocery"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "16912287377-4mgs1iot0cscl265l50fdn5m29v4mqar.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcTGcEAF0Vf3JOb-abEVPhXVf_acWt7R0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "16912287377-4mgs1iot0cscl265l50fdn5m29v4mqar.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:16912287377:android:5610e45d13d930ab67a130",
+        "android_client_info": {
+          "package_name": "com.usergrocery.usergrocery"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "16912287377-4mgs1iot0cscl265l50fdn5m29v4mqar.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcTGcEAF0Vf3JOb-abEVPhXVf_acWt7R0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "16912287377-4mgs1iot0cscl265l50fdn5m29v4mqar.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
