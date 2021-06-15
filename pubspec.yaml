@@ -7,6 +7,14 @@ environment:
 
 dependencies: 
   cupertino_icons: ^1.0.2
+  get_storage: any
+  sms_autofill: any
+  firebase_auth: any
+  google_sign_in: any
+  fluttertoast: any
+  flutter_signin_button: any
+  flutter_form_builder: any
+  # flutter_svg: any
   get: 4.1.4
   firebase_core: 1.2.1
   firebase_storage: 8.1.1
