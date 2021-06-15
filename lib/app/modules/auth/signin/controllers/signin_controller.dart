@@ -193,6 +193,7 @@ class SigninController extends GetxController {
         Get.toNamed(Routes.HOME);
       } else {
         ProgressBar().stop();
+        //
 
         Fluttertoast.showToast(msg: 'Sorry somwtning wen\'t wront');
       }
