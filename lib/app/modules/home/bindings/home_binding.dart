@@ -9,9 +9,10 @@ class HomeBinding extends Bindings {
   void dependencies() {
      Get.put(HomeController,permanent:true);
 
-     Get.put(CategoryWiseController,permanent: true);
+    Get.lazyPut(()=>CategoryWiseController());
    
     Get.put(ProductdetailController,permanent: true);
+    // print("hello");
 
   }
 }

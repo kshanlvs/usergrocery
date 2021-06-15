@@ -13,6 +13,7 @@ dependencies:
   cloud_firestore: 2.2.1
   cached_network_image: 3.0.0
   progress_indicators: 1.0.0
+  paginate_firestore: 1.0.0
   flutter: 
     sdk: flutter
 
