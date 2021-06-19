@@ -53,7 +53,7 @@ class SigninFormView extends GetView<SigninController> {
             onPressed: () {
               if (_fbKey.currentState!.saveAndValidate()) {
                 SigninController.to
-                    .getLoginOTP(controller.phoneTextField.text!.trim());
+                    .getLoginOTP(controller.phoneTextField.text.trim());
               }
             },
           ),

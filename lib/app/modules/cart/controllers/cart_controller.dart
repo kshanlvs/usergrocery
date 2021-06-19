@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 
-class SigninSuccessController extends GetxController {
+class CartController extends GetxController {
+  //TODO: Implement CartController
 
   final count = 0.obs;
   @override

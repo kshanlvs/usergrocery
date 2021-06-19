@@ -50,8 +50,8 @@ class SigninOtpController extends GetxController {
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithCredential(PhoneAuthProvider.credential(
               verificationId: verificationCode.value, smsCode: otp));
-      if (userCredential?.user?.uid != null) {
-        print(userCredential?.user?.uid);
+      if (userCredential.user?.uid != null) {
+        print(userCredential.user?.uid);
         print('You are logged in and go to home');
         SigninController.to
             .afterGetttingFirebaseUid(uid: userCredential.user?.uid);

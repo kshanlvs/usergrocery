@@ -31,7 +31,7 @@ class SigninController extends GetxController {
   findMobileNumber() async {
     final SmsAutoFill _autoFill = SmsAutoFill();
     // _autoFill.listenForCode;
-    var completePhoneNumber = await _autoFill?.hint ?? '';
+    var completePhoneNumber = await _autoFill.hint ?? '';
 
     if (completePhoneNumber.isNotEmpty) {
       var mob = completePhoneNumber.replaceAll('+91', '');
@@ -54,10 +54,10 @@ class SigninController extends GetxController {
 
             UserCredential userCredential =
                 await FirebaseAuth.instance.signInWithCredential(credential);
-            if (userCredential?.user?.uid != null) {
-              print(userCredential?.user?.uid);
+            if (userCredential.user?.uid == null) {
+              print(userCredential.user?.uid);
               print('You are logged in and go to home');
-              afterGetttingFirebaseUid(uid: userCredential?.user?.uid);
+              afterGetttingFirebaseUid(uid: userCredential.user?.uid);
             }
           },
           verificationFailed: (FirebaseAuthException e) {
@@ -69,7 +69,7 @@ class SigninController extends GetxController {
             ProgressBar().stop();
             verificationCode.value = verficationID;
 
-            SigninOtpController?.to?.verificationCode?.value = verficationID;
+            SigninOtpController.to.verificationCode.value = verficationID;
 
             Get.toNamed(Routes.SIGNIN_OTP, arguments: mobileNo);
           },
@@ -113,10 +113,10 @@ class SigninController extends GetxController {
       UserCredential userCredential =
           await FirebaseAuth.instance.signInWithCredential(credential);
 
-      if (userCredential?.user?.uid != null) {
-        print(userCredential?.user?.uid);
+      if (userCredential.user?.uid != null) {
+        print(userCredential.user?.uid);
         print('You are logged in and go to home');
-        afterGetttingFirebaseUid(uid: userCredential?.user?.uid);
+        afterGetttingFirebaseUid(uid: userCredential.user?.uid);
       }
     }
   }
@@ -177,11 +177,11 @@ class SigninController extends GetxController {
   CollectionReference usersCollection =
       FirebaseFirestore.instance.collection(kftUsers);
   afterGetttingFirebaseUid({@required uid}) async {
-    DocumentSnapshot documentSnapshot = await usersCollection.doc(uid).get();
+    DocumentSnapshot<Object?> documentSnapshot = await usersCollection.doc(uid).get();
     if (documentSnapshot.exists) {
-      Object? data = documentSnapshot.data;
-      String userType = '';
-      // String userType = data!['user_type']; //error
+     
+      String userType =  documentSnapshot['user_type'];
+      // String userType = data['user_type']; //error
 
       ProgressBar().stop();
 

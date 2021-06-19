@@ -13,6 +13,8 @@ abstract class Routes {
   static const SIGNIN = _Paths.SIGNIN;
   static const SIGNIN_OTP = _Paths.SIGNIN_OTP;
   static const SIGNIN_SUCCESS = _Paths.SIGNIN_SUCCESS;
+  static const CART = _Paths.CART;
+  static const SEARCH = _Paths.SEARCH;
 }
 
 abstract class _Paths {
@@ -25,4 +27,6 @@ abstract class _Paths {
   static const SIGNIN = '/signin';
   static const SIGNIN_OTP = '/signin-otp';
   static const SIGNIN_SUCCESS = '/signin-success';
+  static const CART = '/cart';
+  static const SEARCH = '/search';
 }

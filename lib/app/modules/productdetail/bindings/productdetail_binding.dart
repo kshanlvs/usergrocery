@@ -5,9 +5,14 @@ import '../controllers/productdetail_controller.dart';
 class ProductdetailBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<ProductdetailController>(
-      () => ProductdetailController(),
-    );
+    // Get.lazyPut<ProductdetailController>(
+    //   () => ProductdetailController(),
+    // );
+    Get.create(() => ProductdetailController());
     
   }
 }
+
+
+
+
