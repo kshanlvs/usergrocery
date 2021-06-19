@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:usergrocery/app/modules/auth/signin_otp/controllers/signin_otp_controller.dart';
 
 import 'otp_form_view.dart';
 
 //import 'package:sms_autofill/sms_autofill.dart';
-class OtpBodyView extends GetView {
+class OtpBodyView extends GetView<SigninOtpController> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -20,7 +21,8 @@ class OtpBodyView extends GetView {
                 " OTP Verification",
                 // style: headingStyle,
               ),
-              Text("We have sent your code "),
+              Text(
+                  "We have sent your code to ${controller.mobileNumber.value}"),
               // SizedBox(height: getScreenHeight(50)),
               OtpFormView(),
               // OtpFormView(),
