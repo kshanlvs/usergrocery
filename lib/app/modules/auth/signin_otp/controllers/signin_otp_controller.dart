@@ -8,6 +8,8 @@ import 'package:get_storage/get_storage.dart';
 import 'package:usergrocery/app/modules/auth/signin/controllers/signin_controller.dart';
 import 'package:usergrocery/app/widgets/progress.dart';
 
+// import 'package:hive/hive.dart';
+
 class SigninOtpController extends GetxController {
   static SigninOtpController get to => Get.find();
 
@@ -15,9 +17,11 @@ class SigninOtpController extends GetxController {
 
   final storage = GetStorage();
 
+  RxString mobileNumber = ''.obs;
+
   // String token;
   // String signature;
-  // RxString code = ''.obs;
+  RxString code = ''.obs;
   // StreamSubscription _subscription;
   @override
   void onInit() async {
@@ -35,10 +39,10 @@ class SigninOtpController extends GetxController {
   }
 
   // void listenForCode() {
-  //   _subscription = SmsAutoFill().code.listen((code) {
-  //     this.code.value = code;
-  //   });
-  //   SmsAutoFill().listenForCode;
+  //   // _subscription = SmsAutoFill().code.listen((code) {
+  //   //   this.code.value = code;
+  //   // });
+  //   // SmsAutoFill().listenForCode;
   // }
 
   RxString verificationCode = ''.obs;
@@ -54,7 +58,7 @@ class SigninOtpController extends GetxController {
         print(userCredential?.user?.uid);
         print('You are logged in and go to home');
         SigninController.to
-            .afterGetttingFirebaseUid(uid: userCredential.user?.uid);
+            .afterGetttingFirebaseUid(uid: userCredential?.user?.uid);
       }
     } catch (e) {
       ProgressBar().stop();
