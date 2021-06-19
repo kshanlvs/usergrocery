@@ -4,20 +4,19 @@ import 'package:get/get.dart';
 
 import '../controllers/signin_otp_controller.dart';
 
+import 'components/otp_body_view.dart';
+
 class SigninOtpView extends GetView<SigninOtpController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('SigninOtpView'),
-        centerTitle: true,
-      ),
-      body: Center(
-        child: Text(
-          'SigninOtpView is working',
-          style: TextStyle(fontSize: 20),
+        title: Text(
+          "OTP",
         ),
       ),
+      body: OtpBodyView(),
     );
   }
 }

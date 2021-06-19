@@ -71,6 +71,8 @@ class SigninController extends GetxController {
 
             SigninOtpController.to.verificationCode.value = verficationID;
 
+            SigninOtpController?.to?.mobileNumber.value = mobileNo;
+
             Get.toNamed(Routes.SIGNIN_OTP, arguments: mobileNo);
           },
           codeAutoRetrievalTimeout: (String verificationID) {
