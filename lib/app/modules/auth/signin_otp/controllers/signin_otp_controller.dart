@@ -38,7 +38,7 @@ class SigninOtpController extends GetxController {
         print(userCredential.user?.uid);
         print('You are logged in and go to home');
         SigninController.to
-            .afterGetttingFirebaseUid(uid: userCredential?.user?.uid);
+            .afterGetttingFirebaseUid(uid: userCredential.user?.uid);
       }
     } catch (e) {
       ProgressBar().stop();

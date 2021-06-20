@@ -8,5 +8,7 @@ class SearchBinding extends Bindings {
     Get.lazyPut<SearchController>(
       () => SearchController(),
     );
+
+    SearchController.to.searchDataList();
   }
 }

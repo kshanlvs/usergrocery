@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +7,6 @@ import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:usergrocery/app/modules/productdetail/controllers/productdetail_controller.dart';
 import 'package:usergrocery/app/routes/app_pages.dart';
 import 'package:usergrocery/app/widgets/products_card.dart';
-import 'package:usergrocery/theme/color_theme.dart';
 
 import '../controllers/category_wise_controller.dart';
 

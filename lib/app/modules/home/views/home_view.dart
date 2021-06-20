@@ -11,6 +11,7 @@ import 'package:usergrocery/app/modules/home/controllers/home_controller.dart';
 import 'package:usergrocery/app/modules/productdetail/controllers/productdetail_controller.dart';
 import 'package:usergrocery/app/routes/app_pages.dart';
 import 'package:usergrocery/app/widgets/products_card.dart';
+import 'package:usergrocery/app/widgets/search_btn.dart';
 import 'package:usergrocery/theme/color_theme.dart';
 
 import '../controllers/home_controller.dart';
@@ -73,14 +74,7 @@ class HomeView extends GetView<HomeController> {
             child: Icon(Icons.shopping_cart,color: Colors.amber, size: 30)),
           elevation: 0,
           actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 15),
-              child: Icon(
-                Icons.search,
-                color: Colors.grey,
-                size: 30,
-              ),
-            )
+            Search()
           ],
         ),
         body: PaginateFirestore(
@@ -245,16 +239,21 @@ class HomeView extends GetView<HomeController> {
 
           
           },
+          
           // orderBy is compulsory to enable pagination
           query: FirebaseFirestore.instance.collection('product_collection'),
+
           listeners: [
             refreshChangeListener,
+
           ],
           // to fetch real-time data
           isLive: true,
         ));
   }
 }
+
+
 
 
 

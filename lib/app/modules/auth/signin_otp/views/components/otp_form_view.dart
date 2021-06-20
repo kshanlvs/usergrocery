@@ -34,14 +34,14 @@ class OtpFormView extends GetView<SigninOtpController> {
               currentCode: SigninOtpController.to.code.value,
               onCodeSubmitted: (code) {
                 // tempOtp = code;
-                SigninOtpController?.to?.code?.value = code;
+                SigninOtpController?.to.code.value = code;
               },
               onCodeChanged: (code) {
                 if (code!.length == 6) {
-                  SigninOtpController?.to?.code?.value = code;
+                  SigninOtpController?.to.code.value = code;
                   SigninOtpController.to.loginWithOtp(
                       controller.mobileNumber.value,
-                      SigninOtpController?.to?.code?.value ?? '');
+                      SigninOtpController?.to.code.value);
                   FocusScope.of(context).requestFocus(FocusNode());
                   print(code);
                 }
@@ -64,7 +64,8 @@ class OtpFormView extends GetView<SigninOtpController> {
                   ),
                 ),
                 Obx(() {
-                  if (SigninOtpController?.to?.timerChanged?.value != null) {
+                  // ignore: unnecessary_null_comparison
+                  if (SigninOtpController?.to.timerChanged.value != null) {
                     return TimerWidget();
                   } else {
                     return TimerWidget();
@@ -80,7 +81,7 @@ class OtpFormView extends GetView<SigninOtpController> {
                   // String tempOtp = SigninOtpController?.to?.code?.value;
                   SigninOtpController.to.loginWithOtp(
                       controller.mobileNumber.value,
-                      SigninOtpController?.to?.code.value ?? '');
+                      SigninOtpController?.to.code.value );
                 }
               },
             ),

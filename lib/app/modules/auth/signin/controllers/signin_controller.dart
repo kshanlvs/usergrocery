@@ -71,7 +71,7 @@ class SigninController extends GetxController {
 
             SigninOtpController.to.verificationCode.value = verficationID;
 
-            SigninOtpController?.to?.mobileNumber.value = mobileNo;
+            SigninOtpController?.to.mobileNumber.value = mobileNo;
 
             Get.toNamed(Routes.SIGNIN_OTP, arguments: mobileNo);
           },
@@ -187,6 +187,7 @@ class SigninController extends GetxController {
 
       ProgressBar().stop();
 
+      // ignore: unnecessary_null_comparison
       if (userType != null && userType.contains(kfuser)) {
         ProgressBar().stop();
         storage.write(kfUid, uid);
