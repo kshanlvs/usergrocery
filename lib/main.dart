@@ -4,10 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-
 import 'app/routes/app_pages.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   GetStorage.init();
@@ -15,11 +14,9 @@ void main() async{
     GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Application",
-      initialRoute: AppPages.INITIAL,
+      // initialRoute: AppPages.INITIAL,
+      initialRoute: Routes.PAYMENT_PAGE,
       getPages: AppPages.routes,
-
-    
-
     ),
   );
 }
