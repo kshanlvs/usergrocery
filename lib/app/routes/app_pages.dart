@@ -18,6 +18,8 @@ import 'package:usergrocery/app/modules/intro/intro_screen/bindings/intro_screen
 import 'package:usergrocery/app/modules/intro/intro_screen/views/intro_screen_view.dart';
 import 'package:usergrocery/app/modules/intro/splash_screen/bindings/splash_screen_binding.dart';
 import 'package:usergrocery/app/modules/intro/splash_screen/views/splash_screen_view.dart';
+import 'package:usergrocery/app/modules/payment_page/bindings/payment_page_binding.dart';
+import 'package:usergrocery/app/modules/payment_page/views/payment_page_view.dart';
 import 'package:usergrocery/app/modules/productdetail/bindings/productdetail_binding.dart';
 import 'package:usergrocery/app/modules/productdetail/views/productdetail_view.dart';
 import 'package:usergrocery/app/modules/search/bindings/search_binding.dart';
@@ -85,6 +87,11 @@ class AppPages {
       name: _Paths.SEARCH,
       page: () => SearchView(),
       binding: SearchBinding(),
+    ),
+    GetPage(
+      name: _Paths.PAYMENT_PAGE,
+      page: () => PaymentPageView(),
+      binding: PaymentPageBinding(),
     ),
   ];
 }

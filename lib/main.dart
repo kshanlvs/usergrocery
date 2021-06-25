@@ -3,21 +3,18 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
-
 import 'app/routes/app_pages.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(
     GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Application",
-      initialRoute: AppPages.INITIAL,
+      // initialRoute: AppPages.INITIAL,
+      initialRoute: Routes.PAYMENT_PAGE,
       getPages: AppPages.routes,
-
-    
-
     ),
   );
 }
