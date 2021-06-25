@@ -1,7 +1,9 @@
 import 'package:get/get.dart';
 
 class CartController extends GetxController {
-  //TODO: Implement CartController
+static CartController get to => Get.find(tag: "cartTotalItem");
+
+ RxInt totalCartItemCount = 1.obs;
 
   final count = 0.obs;
   @override

@@ -88,7 +88,7 @@ class SearchView extends GetView<SearchController> {
                     data['category_id'];
                  await Get.toNamed(Routes.PRODUCTDETAIL);
               },
-              child: ProductCards(data: data),
+              child: ProductCards(data: data,id:controller.newDataList[index].id ,),
             );
                  },
                 );

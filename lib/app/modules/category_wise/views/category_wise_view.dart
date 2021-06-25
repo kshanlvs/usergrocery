@@ -135,7 +135,7 @@ class CategoryWiseView extends GetView<CategoryWiseController> {
                       data['category_id'];
                   await Get.toNamed(Routes.PRODUCTDETAIL);
                 },
-                child: ProductCards(data: data,)
+                child: ProductCards(data: data,id:documentSnapshot.id)
               );
             },
 

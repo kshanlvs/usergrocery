@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
 import 'package:paginate_firestore/bloc/pagination_listeners.dart';
@@ -22,45 +21,46 @@ class HomeView extends GetView<HomeController> {
   final PaginateRefreshedChangeListener refreshChangeListener =
       PaginateRefreshedChangeListener();
 
-     final List<String> images = [
-        "assets/images/cleaning.png",
-        "assets/images/snack.png",
-        "assets/images/water.png",
-        "assets/images/snack.png",
-        "assets/images/healthy-food.png",
-        "assets/images/grocery.png",
-        "assets/images/skincare.png",
-        "assets/images/pet-food.png",
-       
-        
-        "assets/images/soft-drink.png",
-        "assets/images/soft-drink.png",
-        "assets/images/soft-drink.png",
-        "assets/images/soft-drink.png",
 
-      ];
-
-      // final List<Color> colors = [
-      //       Colors.green,
-      //   Colors.orange,
-      //   Colors.red,
-      //        Colors.green,
-      //   Colors.orange,
-      //   Colors.red,
-      //        Colors.green,
-      //   Colors.orange,
-      //   Colors.red,
-      //        Colors.green,
-      //   Colors.orange,
-      //   Colors.red,
       
-       
 
-      // ];
+  final List<String> images = [
+    "assets/images/cleaning.png",
+    "assets/images/snack.png",
+    "assets/images/water.png",
+    "assets/images/snack.png",
+    "assets/images/healthy-food.png",
+    "assets/images/grocery.png",
+    "assets/images/skincare.png",
+    "assets/images/pet-food.png",
+    "assets/images/soft-drink.png",
+    "assets/images/soft-drink.png",
+    "assets/images/soft-drink.png",
+    "assets/images/soft-drink.png",
+    "assets/images/soft-drink.png",
+    "assets/images/soft-drink.png",
+  ];
+
+  // final List<Color> colors = [
+  //       Colors.green,
+  //   Colors.orange,
+  //   Colors.red,
+  //        Colors.green,
+  //   Colors.orange,
+  //   Colors.red,
+  //        Colors.green,
+  //   Colors.orange,
+  //   Colors.red,
+  //        Colors.green,
+  //   Colors.orange,
+  //   Colors.red,
+
+  // ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
         appBar: AppBar(
           title: Text(
             "bag2door",
@@ -68,17 +68,14 @@ class HomeView extends GetView<HomeController> {
           ),
           backgroundColor: Colors.white,
           leading: InkWell(
-            onTap: (){
-              Get.toNamed(Routes.CART);
-            },
-            child: Icon(Icons.shopping_cart,color: Colors.amber, size: 30)),
+              onTap: () {
+                Get.toNamed(Routes.CART);
+              },
+              child: Icon(Icons.shopping_cart, color: Colors.amber, size: 30)),
           elevation: 0,
-          actions: [
-            Search()
-          ],
+          actions: [Search()],
         ),
         body: PaginateFirestore(
-        
           // Use SliverAppBar in header to make it sticky
           header: SliverToBoxAdapter(
               child: Padding(
@@ -124,15 +121,15 @@ class HomeView extends GetView<HomeController> {
                               return ListView.builder(
                                 itemCount: data.length,
                                 scrollDirection: Axis.horizontal,
-                                itemBuilder:
-                                    (BuildContext context, int index) {
+                                itemBuilder: (BuildContext context, int index) {
                                   DocumentSnapshot datas = data[index];
                                   return InkWell(
-                                    onTap: (){
-                                      CategoryWiseController.to.categoryId.value = datas.id;
+                                    onTap: () {
+                                      CategoryWiseController
+                                          .to.categoryId.value = datas.id;
                                       Get.toNamed(Routes.CATEGORY_WISE);
                                     },
-                                                                          child: Padding(
+                                    child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Column(
                                         children: [
@@ -142,10 +139,8 @@ class HomeView extends GetView<HomeController> {
                                               shape: BoxShape.circle,
                                               gradient: LinearGradient(
                                                 colors: [
-                                                     Colors.white,
-                                                    Colors.amber,
-                                               
-                                                
+                                                  Colors.white,
+                                                  Colors.amber,
                                                 ],
                                                 begin: const FractionalOffset(
                                                     0.0, 0.0),
@@ -158,11 +153,17 @@ class HomeView extends GetView<HomeController> {
 
                                             // color: Colors.black.withOpacity(.7),
                                             child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
                                               children: [
                                                 Padding(
-                                                  padding: const EdgeInsets.all(12.0),
-                                                  child: Image.asset(images[index],height: 50,width: 50,),
+                                                  padding: const EdgeInsets.all(
+                                                      12.0),
+                                                  child: Image.asset(
+                                                    images[index],
+                                                    height: 50,
+                                                    width: 50,
+                                                  ),
                                                 ),
                                                 // Center(
                                                 //   child: Padding(
@@ -179,22 +180,22 @@ class HomeView extends GetView<HomeController> {
                                               ],
                                             ),
                                           ),
-
-                                          SizedBox(height:10),
-                                            SizedBox(
-                                              height: 40,
-                                              width: 50,
-                                              child: Text(
-                                                          datas['category_title']
-                                                              .toString()
-                                                              .toUpperCase(),
-                                                              maxLines: 2,
-                                                              overflow: TextOverflow.ellipsis,
-                                                          style: TextStyle(
-                                                              fontWeight: FontWeight.bold,
-                                                              color: Colors.blueGrey,fontSize: 9,)),
-                                            ),
-
+                                          SizedBox(height: 10),
+                                          SizedBox(
+                                            height: 40,
+                                            width: 50,
+                                            child: Text(
+                                                datas['category_title']
+                                                    .toString()
+                                                    .toUpperCase(),
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.blueGrey,
+                                                  fontSize: 9,
+                                                )),
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -210,7 +211,10 @@ class HomeView extends GetView<HomeController> {
                 ),
                 SizedBox(height: 20),
                 Text("All Products",
-                    style: TextStyle(color: Colors.grey, fontSize: 24,fontWeight: FontWeight.bold)),
+                    style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold)),
               ],
             ),
           )),
@@ -232,29 +236,24 @@ class HomeView extends GetView<HomeController> {
                     documentSnapshot.id;
                 ProductdetailController.to.categoryId.value =
                     data['category_id'];
-                 await Get.toNamed(Routes.PRODUCTDETAIL);
+                await Get.toNamed(Routes.PRODUCTDETAIL);
               },
-              child: ProductCards(data: data),
+              child: ProductCards(
+                data: data,
+                id: documentSnapshot.id,
+                index: index,
+              ),
             );
-
-          
           },
-          
+
           // orderBy is compulsory to enable pagination
           query: FirebaseFirestore.instance.collection('product_collection'),
 
           listeners: [
             refreshChangeListener,
-
           ],
           // to fetch real-time data
           isLive: true,
         ));
   }
 }
-
-
-
-
-
-
