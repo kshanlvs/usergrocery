@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ProgressBar {
+
+ 
+  
   void start() {
     Get.dialog(
       Center(
@@ -25,8 +28,8 @@ class ProgressBar {
                   ),
                   // child: LoadingAnimationCart(),
                   child: CircularProgressIndicator(
-                      //strokeWidth: 5.0,
-                      //backgroundColor: Colors.amber,
+                      strokeWidth: 1.0,
+                      // backgroundColor: Colors.amber,
                       ),
                 ),
               ],

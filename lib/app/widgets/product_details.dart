@@ -5,17 +5,13 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:usergrocery/app/modules/productdetail/controllers/productdetail_controller.dart';
 import 'package:usergrocery/app/routes/app_pages.dart';
+import 'package:usergrocery/app/widgets/product_detail_card_counter.dart';
 import 'package:usergrocery/app/widgets/products_card.dart';
 import 'package:usergrocery/theme/color_theme.dart';
 
-class ProductDetailWidget extends StatefulWidget {
-  final ProductdetailController controller = Get.find();
 
-  @override
-  _ProductDetailWidgetState createState() => _ProductDetailWidgetState();
-}
 
-class _ProductDetailWidgetState extends State<ProductDetailWidget> {
+class ProductDetailWidget extends GetView<ProductdetailController> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -23,11 +19,14 @@ class _ProductDetailWidgetState extends State<ProductDetailWidget> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         FutureBuilder<DocumentSnapshot>(
-          future: widget.controller.getProductDetails(),
+          future: controller.getProductDetails(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (!snapshot.hasData) {
               return Text("Loading....");
             } else if (snapshot.connectionState == ConnectionState.done) {
+              DocumentSnapshot<Object> data = snapshot.data;
+              final datas = data.data() as Map;
+         
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -71,64 +70,9 @@ class _ProductDetailWidgetState extends State<ProductDetailWidget> {
                                     ),
                                   ],
                                 )),
-                            Expanded(
-                              flex: 2,
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                    Expanded(
-                                              flex: 1,
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Container(
-                                                    height: 30,
-                                                    width: 30,
-                                                    // color: Colors.blueGrey[900],
-                                                    child: Card(
-                                                      color: Colors.amber
-                                                          .withOpacity(.1),
-                                                      child: Icon(
-                                                        Icons.remove,
-                                                        color: Colors.white,
-                                                        size: 18,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    height: 20,
-                                                    width: 30,
-                                                    color: Colors.white,
-                                                    child: Center(
-                                                      child: Text(
-                                                        "0",
-                                                        style: TextStyle(
-                                                            color: Colors
-                                                                .blueGrey[900]),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    height: 30,
-                                                    width: 30,
-                                                    // color: Colors.blueGrey[900],
-                                                    child: Card(
-                                                      color: Colors.amber[800]
-                                                        ,
-                                                      child: Icon(
-                                                        Icons.add,
-                                                        color: Colors.white,
-                                                        size: 18,
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                ],
-                              ),
-                            ),
+
+                                //
+                            ProductDetailCardCounter(data: datas,id: snapshot.data.id,),
                           ],
                         ),
                         SizedBox(height:10),
@@ -202,7 +146,7 @@ class _ProductDetailWidgetState extends State<ProductDetailWidget> {
                           // margin: EdgeInsets.symmetric(vertical: 20.0),
                           height: 300.0,
                           child: FutureBuilder<QuerySnapshot>(
-                            future: widget.controller.getRelatedProduct(),
+                            future: controller.getRelatedProduct(),
                             builder: (BuildContext context,
                                 AsyncSnapshot snapshot) {
                               if (snapshot.hasError) {
@@ -225,14 +169,14 @@ class _ProductDetailWidgetState extends State<ProductDetailWidget> {
                                           singleData[index];
                                       return InkWell(
                                         onTap: () async {
-                                          widget.controller.productId
-                                              .value = data.id;
+                                          controller.productId
+                                              ?.value = data.id;
 
-                                          await widget.controller
+                                          await controller
                                               .getProductDetails();
-                                          widget.controller.categoryId
+                                          controller.categoryId
                                               .value = data['category_id'];
-                                          widget.controller.productName
+                                          controller.productName
                                               .value = data['product_name'];
                                           Get.toNamed(
                                             Routes.PRODUCTDETAIL,
@@ -473,3 +417,5 @@ class _ProductDetailWidgetState extends State<ProductDetailWidget> {
     );
   }
 }
+
+

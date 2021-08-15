@@ -6,6 +6,7 @@ import 'package:usergrocery/app/modules/productdetail/controllers/productdetail_
 import '../controllers/home_controller.dart';
 
 class HomeBinding extends Bindings {
+  CartController cartController = Get.put(CartController());
   @override
   void dependencies() {
      Get.put(HomeController,permanent:true);
@@ -13,10 +14,10 @@ class HomeBinding extends Bindings {
     Get.lazyPut(()=>CategoryWiseController());
    
     Get.put(ProductdetailController,permanent: true);
-     Get.put(CartController,permanent: true,tag: "cartTotalItem");
-
+     Get.put(CartController,permanent: true,);
+    // cartController.getCartItemsTotal();
     Get.create(() => HomeController());
-    // print("hello");
+
 
   } 
 }

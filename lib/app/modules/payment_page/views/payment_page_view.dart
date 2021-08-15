@@ -54,11 +54,11 @@ class _PaymentPageViewState extends State<PaymentPageView> {
   Future<UpiResponse> initiateTransaction(UpiApp app) async {
     return _upiIndia.startTransaction(
       app: app,
-      receiverUpiId: "kalyanb447@ybl",
+      receiverUpiId: "7679649161@ybl",
       receiverName: 'bag2door',
       transactionRefId: 'TestingUpiIndiaPlugin',
       transactionNote: 'Buying lays',
-      amount: 1.00,
+      amount: 2,
     );
   }
 

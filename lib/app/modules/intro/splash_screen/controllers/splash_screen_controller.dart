@@ -10,7 +10,7 @@ class SplashScreenController extends GetxController {
   static SplashScreenController get to => Get.find();
 
   GetStorage storage = GetStorage();
-  String uid = '';
+  String? uid = '';
 
   bool firstTimeUser = true;
   autoLogincall() async {
@@ -19,9 +19,7 @@ class SplashScreenController extends GetxController {
     uid = await storage.read(kfUid) ?? '';
 
     Future.delayed(Duration(seconds: 2), () {
-      if (firstTimeUser == true) {
-        Get.toNamed(Routes.INTRO_SCREEN);
-      } else if (uid != null && uid != '') {
+    if (uid != null && uid != '') {
         Get.toNamed(Routes.HOME);
       } else {
         Get.toNamed(Routes.SIGNIN);

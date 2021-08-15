@@ -12,6 +12,8 @@ import 'package:usergrocery/app/modules/category_wise/bindings/category_wise_bin
 import 'package:usergrocery/app/modules/category_wise/views/category_wise_view.dart';
 import 'package:usergrocery/app/modules/categorylist/bindings/categorylist_binding.dart';
 import 'package:usergrocery/app/modules/categorylist/views/categorylist_view.dart';
+import 'package:usergrocery/app/modules/checkout/bindings/checkout_binding.dart';
+import 'package:usergrocery/app/modules/checkout/views/checkout_view.dart';
 import 'package:usergrocery/app/modules/home/bindings/home_binding.dart';
 import 'package:usergrocery/app/modules/home/views/home_view.dart';
 import 'package:usergrocery/app/modules/intro/intro_screen/bindings/intro_screen_binding.dart';
@@ -30,7 +32,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.HOME;
+  static const INITIAL = Routes.SPLASH_SCREEN;
 
   static final routes = [
     GetPage(
@@ -92,6 +94,11 @@ class AppPages {
       name: _Paths.PAYMENT_PAGE,
       page: () => PaymentPageView(),
       binding: PaymentPageBinding(),
+    ),
+    GetPage(
+      name: _Paths.CHECKOUT,
+      page: () => CheckoutView(),
+      binding: CheckoutBinding(),
     ),
   ];
 }

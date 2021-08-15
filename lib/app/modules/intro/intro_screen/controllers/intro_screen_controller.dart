@@ -7,7 +7,7 @@ class IntroScreenController extends GetxController {
   static IntroScreenController get to => Get.find();
 
   GetStorage storage = GetStorage();
-  String uid = '';
+  String? uid = '';
 
   bool firstTimeUser = true;
   checkForLogin() async {

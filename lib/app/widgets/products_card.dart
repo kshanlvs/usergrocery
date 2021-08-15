@@ -1,11 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:usergrocery/Constants.dart';
+import 'package:usergrocery/app/modules/cart/controllers/cart_controller.dart';
 import 'package:usergrocery/app/modules/home/controllers/home_controller.dart';
-import 'package:usergrocery/app/routes/app_pages.dart';
 import 'package:usergrocery/app/widgets/cartfunc.dart';
 
 class ProductCards extends StatefulWidget {
@@ -27,6 +28,7 @@ class ProductCards extends StatefulWidget {
 class _ProductCardsState extends State<ProductCards> {
   GetStorage storage = GetStorage();
   final HomeController controller1 = Get.find();
+  final CartController cartController = Get.put(CartController());
 
   @override
   Widget build(BuildContext context) {
@@ -141,10 +143,44 @@ class _ProductCardsState extends State<ProductCards> {
                         height: 25,
                         width: 40,
                         color: Color(0xFFF5BA27),
-                        child: Icon(
-                          Icons.remove,
-                          color: Colors.white,
-                          size: 15,
+                        child: InkWell(
+                          onTap: () {
+
+                                
+                            
+                            
+                             if(controller1.quantity.value > 0){
+                                controller1.quantity.value = controller1.quantity.value -1;
+                                if(controller1.quantity.value >=0){
+                                cartDecrement(pQuantity: controller1.quantity.value,pId: widget.id);
+                            }
+                             }
+
+                           
+                          
+                            // cartAdd(
+                            //     pId: widget.id,
+                            //     pQuantity: controller1.quantity.value,
+                            //     userId: getStorage.read(kfUid));
+                            // if (controller1.quantity.value != 0) {
+                            //   controller1.quantity.value -= 1;
+
+                            //   if (controller1.quantity.value == 0) {
+                            //     cartController.getCartItemsTotalForDecrement();
+                            //     cartDelete(cId: controller1.catId.value);
+                            //   } else {
+                            //     cartController.getCartItemsTotalForDecrement();
+                            //     cartUpdate(
+                            //         cId: controller1.catId.value,
+                            //         pQuantity: controller1.quantity.value);
+                            //   }
+                            // }
+                          },
+                          child: Icon(
+                            Icons.remove,
+                            color: Colors.white,
+                            size: 15,
+                          ),
                         ),
                       ),
                       Container(
@@ -163,29 +199,24 @@ class _ProductCardsState extends State<ProductCards> {
                             builder:
                                 (BuildContext context, AsyncSnapshot snapshot) {
                               if (!snapshot.hasData) {
-                                return Text("0");
+                                return CupertinoActivityIndicator();
                               }
-                              if (snapshot.hasError) {
+
+                              if (snapshot.hasData &&
+                                  snapshot.requireData.docs.length != 0) {
+                                DocumentSnapshot? data = snapshot.data.docs[0];
+                                // controller1.catId.value =
+                                //     snapshot.data.docs[0].id;
+
+                                controller1.quantity.value =
+                                    data!['product_quantity'] ?? 0;
+                                return Text(
+                                    data['product_quantity'].toString());
+                              } else if (snapshot.requireData.docs.length ==
+                                  0) {
                                 return Text("0");
                               } else {
-                                if (snapshot.data.docs.length > 0) {
-                                  DocumentSnapshot? data =
-                                      snapshot.data.docs[0];
-                                  controller1.catId.value =
-                                      snapshot.data.docs[0].id;
-
-                                  controller1.quantity.value =
-                                      data!['product_quantity'] ?? 0;
-                                }
-
-                                return Obx(() {
-                                  if (controller1.quantity.value == 0) {
-                                    return Text("0");
-                                  } else {
-                                    return Text(
-                                        controller1.quantity.value.toString());
-                                  }
-                                });
+                                return SizedBox.shrink();
                               }
                             },
                           ),
@@ -198,26 +229,36 @@ class _ProductCardsState extends State<ProductCards> {
                         width: 40,
                         color: Color(0xFFF5BA27),
                         child: InkWell(
-                          onTap: () {
+                          onTap: () async {
                             GetStorage getStorage = GetStorage();
 
-                            if (controller1.quantity.value == 0) {
-                            
+                             controller1.quantity.value +=1;
 
-                              controller1.quantity.value += 1;
+                            cartAdd(
+                                pId: widget.id,
+                                pQuantity: controller1.quantity.value,
+                                userId: getStorage.read(kfUid));
+                               cartController.getCartItemsTotal();
 
-                              cartAdd(
-                                  pId: widget.id,
-                                  pPrice: widget.data['mrp'],
-                                  pQuantity: controller1.quantity.value,
-                                  userId: getStorage.read(kfUid));
-                            } else {
-                              controller1.quantity.value += 1;
-                                
-                              cartUpdate(
-                                  cId: controller1.catId.value,
-                                  pQuantity: controller1.quantity.value);
-                            }
+                            //if the user doesn't have any itmes in cart
+                            // GetStorage getStorage = GetStorage();
+                            // if (controller1.quantity.value == 0) {
+
+                            //   cartAdd(
+                            //       pId: widget.id,
+                            //       pPrice: widget.data['mrp'],
+                            //       pQuantity: 2,
+                            //       userId: getStorage.read(kfUid));
+                            //        cartController.getCartItemsTotal();
+                            // } else {
+
+                            //   // controller1.quantity.value += 1;
+
+                            //    cartUpdate(
+                            //       cId: controller1.catId.value,
+                            //       pQuantity: controller1.quantity.value+1);
+                            //        cartController.getCartItemsTotal();
+                            // }
                           },
                           child: Icon(
                             Icons.add,

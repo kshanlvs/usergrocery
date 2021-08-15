@@ -6,6 +6,7 @@ import 'package:paginate_firestore/bloc/pagination_listeners.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:usergrocery/app/modules/productdetail/controllers/productdetail_controller.dart';
 import 'package:usergrocery/app/routes/app_pages.dart';
+import 'package:usergrocery/app/widgets/cartfunc.dart';
 import 'package:usergrocery/app/widgets/products_card.dart';
 
 import '../controllers/category_wise_controller.dart';
@@ -22,7 +23,9 @@ class CategoryWiseView extends GetView<CategoryWiseController> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: onWillPop,
+      
       child: Scaffold(
+        bottomNavigationBar: btnNav(),
           appBar: AppBar(
             backgroundColor: Colors.white,
             title: Obx(() {
@@ -129,7 +132,7 @@ class CategoryWiseView extends GetView<CategoryWiseController> {
                 onTap: () async {
                   ProductdetailController.to.productName.value =
                       data['product_name'];
-                  ProductdetailController.to.productId.value =
+                  ProductdetailController.to.productId?.value =
                       documentSnapshot.id;
                   ProductdetailController.to.categoryId.value =
                       data['category_id'];

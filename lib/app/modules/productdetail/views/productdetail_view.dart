@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:usergrocery/app/widgets/cartfunc.dart';
 
 import 'package:usergrocery/app/widgets/product_details.dart';
 import 'package:usergrocery/theme/color_theme.dart';
@@ -13,6 +14,7 @@ class ProductdetailView extends GetView<ProductdetailController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: btnNav(),
         key: _scaffoldKey,
         backgroundColor: Colors.white,
         appBar: AppBar(

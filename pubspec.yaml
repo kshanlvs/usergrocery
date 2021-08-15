@@ -2,12 +2,10 @@ name: usergrocery
 version: 1.0.0+1
 publish_to: none
 description: A new Flutter project.
-environment:
+environment: 
   sdk: '>=2.12.0 <3.0.0'
 
-dependencies:
-  flutter:
-    sdk: flutter
+dependencies: 
   cached_network_image: 3.0.0
   cloud_firestore: 2.2.1
   cupertino_icons: ^1.0.2
@@ -25,13 +23,19 @@ dependencies:
   progress_indicators: 1.0.0
   sms_autofill: any
   upi_india: 3.0.1
-
-
-dev_dependencies:
-  flutter_test:
+  badges: 2.0.1
+  carousel_slider: 4.0.0
+  google_maps_flutter: 2.0.6
+  location: 4.3.0
+  flutter: 
     sdk: flutter
 
-flutter:
-  assets:
+dev_dependencies: 
+  flutter_test: 
+    sdk: flutter
+
+flutter: 
+  assets: 
     - assets/images/
   uses-material-design: true
+

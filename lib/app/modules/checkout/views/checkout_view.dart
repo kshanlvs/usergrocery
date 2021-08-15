@@ -5,26 +5,24 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
-import 'package:usergrocery/app/modules/home/controllers/home_controller.dart';
+import 'package:usergrocery/app/models/address_model.dart';
+import 'package:usergrocery/app/models/cart_model.dart';
 
-import 'package:usergrocery/app/widgets/cart_counter.dart';
-import 'package:usergrocery/app/widgets/cartfunc.dart';
+import 'package:usergrocery/app/modules/checkout/controllers/checkout_controller.dart';
+
 import 'package:usergrocery/theme/color_theme.dart';
 
 import '../../../../Constants.dart';
-import '../controllers/cart_controller.dart';
 
-class CartView extends GetView<CartController> {
-    final HomeController controller1 = Get.find();
-
+class CheckoutView extends GetView<CheckoutController> {
   final GetStorage getStorage = GetStorage();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: buyNowBtn(),
+        // bottomNavigationBar: buyNowBtn(),
         appBar: AppBar(
           title: Text(
-            'Cart',
+            'Order Summary',
             style: TextStyle(color: textColor),
           ),
           leading: InkWell(
@@ -36,6 +34,114 @@ class CartView extends GetView<CartController> {
           centerTitle: true,
         ),
         body: PaginateFirestore(
+          header: SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Select Delivery Address",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 10),
+                  FutureBuilder<QuerySnapshot>(
+                    future: FirebaseFirestore.instance
+                        .collection("address")
+                        .where("state", isEqualTo: "west bengal")
+                        .get(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (!snapshot.hasData) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (snapshot.connectionState ==
+                          ConnectionState.done) {
+                        //  var data = snapshot.data;
+
+                        //  List<DocumentChange<Object?>> data  = snapshot.data!.docChanges ;
+                        //     Map<String,dynamic> datas =   data[0].doc.data() as   Map<String,dynamic>;
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                        
+                            ListView.builder(
+                              shrinkWrap: true,
+                              physics: BouncingScrollPhysics(),
+                              itemCount: snapshot.data!.docChanges.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                Map<String, dynamic> data =
+                                    snapshot.data!.docs[index].data()
+                                        as Map<String, dynamic>;
+                                AddressModel addressModel =
+                                    AddressModel.fromJson(data);
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                        Obx(() => CheckboxListTile(
+                                  onChanged: (value) {
+                                    controller.checked.value = value!;
+                                  },
+                                  activeColor: Colors.deepOrange,
+                                  tileColor: Colors.grey[200],
+                                  subtitle: Text("Default Address"),
+                                  value: controller.checked.value,
+                                  title: Text("Deliver To This Address"),
+                                  checkColor: Colors.white,
+                                )),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 15, top: 5),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            addressModel.city!.toUpperCase(),
+                                            style: TextStyle(fontSize: 18),
+                                          ),
+                                          SizedBox(height: 2),
+                                          Text(
+                                            addressModel.address!,
+                                          ),
+                                          SizedBox(height: 2),
+                                          Text(
+                                            addressModel.buildingApartmentName! +
+                                                ",",
+                                          ),
+                                          SizedBox(height: 2),
+                                          Text(
+                                              addressModel.state! +
+                                                  " " +
+                                                  addressModel.pinCode.toString(),
+                                              style: TextStyle()),
+                                          SizedBox(height: 5),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                            Divider(),
+                            OutlinedButton(
+                                onPressed: () {},
+                                child: Text(
+                                  "Add new address",
+                                  style: TextStyle(color: textColor),
+                                ))
+                          ],
+                        );
+                      } else {
+                        return Text("something went wrong");
+                      }
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
           // Use SliverAppBar in header to make it sticky
           // header: SliverToBoxAdapter(
           //     child: Padding(
@@ -170,7 +276,52 @@ class CartView extends GetView<CartController> {
           //     ],
           //   ),
           // )),
-          // footer: SliverToBoxAdapter(child: Text('FOOTER')),
+          footer: SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  
+                  children: [
+                      Text(
+                    "Payment Details",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 10),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10,right: 10),
+                      child: Table(
+                        
+                        border:TableBorder.all(color: textColor,) ,
+                        children: [
+            TableRow(
+              
+              children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text("Total Items"),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Center(child: Text("2")),
+                      ),
+            ]),
+            
+            TableRow(children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text("Total"),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Center(child: Text("599")),
+                      ),
+            ]),
+          ]),
+                    ),
+                  ],
+                ),
+              )),
           // item builder type is compulsory.
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
@@ -179,8 +330,9 @@ class CartView extends GetView<CartController> {
           itemBuilderType:
               PaginateBuilderType.listView, //Change types accordingly
           itemBuilder: (index, context, documentSnapshot) {
-            final data = documentSnapshot.data() as Map;
-    
+            final data = documentSnapshot.data() as Map<String, dynamic>;
+            controller.cartModel.value = CartModel.fromJson(data);
+
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
@@ -190,10 +342,9 @@ class CartView extends GetView<CartController> {
                 child: FutureBuilder(
                   future: FirebaseFirestore.instance
                       .collection("product_collection")
-                      .doc(data['product_id'])
+                      .doc(controller.cartModel.value.productId.toString())
                       .get(),
-                  builder:
-                      (BuildContext context, AsyncSnapshot snapshot) {
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
                     if (!snapshot.hasData) {
                       return SizedBox.shrink();
                     } else {
@@ -210,8 +361,7 @@ class CartView extends GetView<CartController> {
                                 child: AspectRatio(
                                     aspectRatio: 2 / 3,
                                     child: CachedNetworkImage(
-                                      imageUrl:
-                                          productData['theme_image'],
+                                      imageUrl: productData['theme_image'],
                                     )),
                               ),
                             ),
@@ -221,8 +371,7 @@ class CartView extends GetView<CartController> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     "${productData['product_name']}",
@@ -232,9 +381,13 @@ class CartView extends GetView<CartController> {
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  SizedBox(height: 20),
+                                  SizedBox(height: 5),
                                   Text("Rs.${productData['mrp']}"),
-                                  CartCounter(data: data,id:productData.id,catId:documentSnapshot.id),
+                                  SizedBox(height: 10),
+                                  Text("Qty : ${data['product_quantity']}"),
+
+                                  
+                                  // CartCounter(data: data,id:productData.id,catId:documentSnapshot.id),
                                 ],
                               ),
                             ),
@@ -389,4 +542,3 @@ class CartView extends GetView<CartController> {
     // ));
   }
 }
-
