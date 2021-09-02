@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:usergrocery/app/widgets/progress.dart';
 
 import '../../../../Constants.dart';
 
@@ -13,91 +15,120 @@ class CartController extends GetxController {
   GetStorage getStorage = GetStorage();
 
   RxInt cartTotal = 0.obs;
+  RxList<String> pmrp = <String>[].obs;
+  RxList<int> p = <int>[].obs;
+  RxInt sumOfCartItemsTotal = 0.obs;
+// add to cart function
 
+  cartAdd({@required pId, @required pQuantity, @required userId}) async {
+    ProgressBar().start();
+    Map<String, dynamic> data = {
+      "product_id": pId,
+      "product_quantity": pQuantity,
+      "user_id": userId
+    };
 
-
-  Future getCartItemsTotal() async {
-
-
-
-
-    
-    RxList listOfCarttotal = [].obs;
- 
-    await FirebaseFirestore.instance
-        .collection('carts').where("user_id",isEqualTo:getStorage.read(kfUid))
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-             totalCartItemCount.value = 0;
-      querySnapshot.docs.forEach((doc) {
-        if (querySnapshot.docs.length > 0) {
-          listOfCarttotal.add(doc['product_quantity']);
-          getCartTotal(doc["product_id"], doc['product_quantity']);
-        }
-      });
-      if (querySnapshot.docs.length > 0) {
-        totalCartItemCount.value = listOfCarttotal.reduce((a, b) => a + b);
-      }
-    });
-  }
-
-  Future getCartItemsTotalForDecrement() async {
-    RxList listOfCarttotal = [].obs;
-    totalCartItemCount.value = 0;
-    await FirebaseFirestore.instance
-        .collection('carts').where("user_id",isEqualTo:getStorage.read(kfUid))
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-             totalCartItemCount.value = 0;
-      querySnapshot.docs.forEach((doc) {
-        if (querySnapshot.docs.length > 0) {
-          listOfCarttotal.add(doc['product_quantity']);
-          getCartTotal(doc["product_id"], doc['product_quantity']);
-        }
-      });
-      if(querySnapshot.docs.length>0){
-      
-         totalCartItemCount.value = listOfCarttotal.reduce((a, b) => a + b);
-        //  print(totalCartItemCount.value);
-      }
-      else if(querySnapshot.docs.length == 0){
-        totalCartItemCount.value = 0;
-      }
-      else{
-         totalCartItemCount.value = 0;
+    await cartCollection.get().then((value) async {
+      if (value.docs.length != 0) {
+        await cartCollection
+            .where("product_id", isEqualTo: pId)
+            .get()
+            .then((value) {
+          if (value.docs.length != 0) {
+            cartCollection
+                .doc(value.docs[0].id)
+                .update({"product_quantity": pQuantity});
+            ProgressBar().stop();
+          } else {
+            cartCollection.add(data);
+            ProgressBar().stop();
+          }
+        });
+      } else if (value.docs.length == 0) {
+        await cartCollection.add(data);
+        ProgressBar().stop();
+      } else {
+        null;
       }
     });
 
-   
+    ProgressBar().stop();
   }
 
-  getCartTotal(String id, int productQuantity) {
+  Future cartUpdate({@required cId, @required pQuantity}) async {
+    ProgressBar().start();
+    await cartCollection.doc(cId).update({"product_quantity": pQuantity});
+    ProgressBar().stop();
+  }
 
- 
-    FirebaseFirestore.instance
-        .collection("product_collection")
-        .doc(id)
+  Future cartDelete({@required cId}) async {
+    ProgressBar().start();
+
+    await FirebaseFirestore.instance.collection("carts").doc(cId).delete();
+    ProgressBar().stop();
+  }
+
+  cartDecrement({required pId, required pQuantity}) async {
+    ProgressBar().start();
+    await cartCollection
+        .where("product_id", isEqualTo: pId)
         .get()
         .then((value) {
-             
-            
-      Map<String, dynamic>? data = value.data();
-      var mrp = data!['mrp']; // here im getting  the mrp of the product 
-
-      // cart total will be mrp * quantty
-
-      
-      cartTotal.value = 0;
-      
-     cartTotal.value = int.parse(mrp) * productQuantity;
+      if (value.docs.length != 0 && pQuantity != 0) {
+        cartCollection
+            .doc(value.docs[0].id)
+            .update({"product_quantity": pQuantity});
+        ProgressBar().stop();
+      } else if (pQuantity == 0) {
+        cartCollection.doc(value.docs[0].id).delete();
+        ProgressBar().stop();
+      } else {
+        null;
+      }
     });
-     
-      
+  }
+
+  getDataForCartCalculation() async{
+    p.value = <int>[];
+   await FirebaseFirestore.instance
+        .collection("carts")
+        .where("user_id", isEqualTo: getStorage.read(kfUid))
+        .get()
+        .then((value) {
+      // Map<String,dynamic >? data = value.docChanges[0].doc.data();
+      // print(data!['product_quantity']);
+      value.docChanges.forEach((element) async {
+        p.add(element.doc.get("product_quantity"));
+       await getProductPrice(pId: element.doc.get("product_id"),pQty:element.doc.get("product_quantity"));
+      });
+    });
+  }
+
+  getProductPrice({@required pId,int?  pQty})  {
+    FirebaseFirestore.instance
+        .collection("product_collection")
+        .doc(pId)
+        .get()
+        .then((value) {
+      // Map<String,dynamic >? data = value.docChanges[0].doc.data();
+      // print(data!['product_quantity']);
+      sumOfCartItemsTotal.value = sumOfCartItemsTotal.value + (pQty!) * (int.parse(value.get("mrp")));
+    
+    });
+
+    // print(pmrp);
+  }
+
+Future  getTotal() async {
+ await getDataForCartCalculation();
+
+    print(sumOfCartItemsTotal.value);
   }
 
   final count = 0.obs;
   @override
   void onInit() {
+ 
     super.onInit();
   }
 
@@ -108,10 +139,10 @@ class CartController extends GetxController {
 
   @override
   void onClose() {
-   totalCartItemCount = 0.obs;
+    totalCartItemCount = 0.obs;
 
-
- cartTotal = 0.obs;
+    cartTotal = 0.obs;
   }
+
   void increment() => count.value++;
 }
